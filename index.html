@@ -324,7 +324,7 @@ body.locked{overflow:hidden}
 </head>
 <body>
 <div id="root"></div><div id="modal" class="modal" hidden></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script id="state" type="application/json">{"meta":{"name":"Copa Mar Azul 2026","place":"Mar Azul","start":"2026-11-25","end":"2026-11-29"},"players":["Fuentes","Moore","Martini","Helou","Bardi","Muises","Franco","Mariano"],"pairs":[{"id":"A","name":"Irlanda","flag":"ie","color":"#169B62","players":[0,1]},{"id":"B","name":"China","flag":"cn","color":"#E0322B","players":[2,3]},{"id":"C","name":"Vaticano","flag":"va","color":"#D9A300","players":[4,5]},{"id":"D","name":"Suiza","flag":"ch","color":"#7487A0","players":[6,7]}],"categories":[{"id":"truco","code":"TR","name":"Truco","mult":1,"format":"rr","to":30,"rule":"Partidas a 30 (15 malas y 15 buenas). Con o sin flor se decide antes del primer partido y vale para todo el torneo."},{"id":"play","code":"PS","name":"Play (FC)","mult":1,"format":"rr","to":0,"rule":"2 contra 2 en el mismo equipo, partidos de 6 minutos. Si terminan empatados se define por penales."},{"id":"tejo","code":"TJ","name":"Tejo","mult":1,"format":"rr","to":15,"rule":"Partidas a 15 puntos. Se tira alternando una pareja y la otra."},{"id":"futtenis","code":"FT","name":"Fútbol tenis","mult":1,"format":"rr","to":15,"rule":"2 contra 2 con red en la playa. Partidos a 15 puntos, hay que ganar por 2."}],"posPoints":[10,6,3,1],"matches":[],"bonuses":[]}</script>
+<script id="state" type="application/json">{"meta":{"name":"Copa Mar Azul 2026","place":"Mar Azul","start":"2026-11-25","end":"2026-11-29"},"players":["Fuentes","Moore","Martini","Helou","Bardi","Muises","Franco","Mariano"],"pairs":[{"id":"A","name":"Irlanda","flag":"ie","color":"#169B62","players":[0,1]},{"id":"B","name":"China","flag":"cn","color":"#E0322B","players":[2,3]},{"id":"C","name":"Vaticano","flag":"va","color":"#D9A300","players":[4,5]},{"id":"D","name":"Suiza","flag":"ch","color":"#7487A0","players":[6,7]}],"categories":[{"id":"truco","code":"TR","name":"Truco","mult":1,"format":"rr","to":30,"rule":"Partidas a 30. Sin flor."},{"id":"play","code":"PS","name":"Play (FC)","mult":1,"format":"rr","to":0,"rule":"2 contra 2 en el mismo equipo, partidos de 6 minutos. Si terminan empatados se define por penales."},{"id":"tejo","code":"TJ","name":"Tejo","mult":1,"format":"rr","to":11,"rule":"Partidas a 11 puntos. Se tira alternando una pareja y la otra."},{"id":"futtenis","code":"FT","name":"Fútbol tenis","mult":1,"format":"rr","to":11,"rule":"2 contra 2 con red en la playa. Partidos a 11 puntos, hay que ganar por 2 puntos."}],"posPoints":[10,6,3,1],"matches":[],"bonuses":[]}</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
@@ -362,7 +362,7 @@ function uid(){return Math.random().toString(36).slice(2,9)}
 function S(){return demo?demoState:state}
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function canEdit(){return !demo&&!readOnly&&isOrg}
-function view(){var h=location.hash.slice(1);return VIEWS.some(function(v){return v[0]===h})?h:'tabla'}
+function view(){var h=location.hash.slice(1);return VIEWS.some(function(v){return v[0]===h})?h:'reglamento'}
 
 /* ---------- Fechas ---------- */
 function isoLocal(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
@@ -525,10 +525,10 @@ function vReglamento(s){
   var pairs=s.pairs.map(function(p){return '<li>'+dot(p)+' <b>'+esc(p.name)+'</b>: '+esc(playersOf(s,p))+'</li>'}).join('');
   function sec(n,t,html){return '<div class="rsec"><div class="rnum">'+n+'</div><div><h2 style="margin-bottom:10px">'+t+'</h2>'+html+'</div></div>'}
   return '<section class="card"><div class="rules">'+
-    sec('01','Las parejas','<p>Somos 8 y jugamos en 4 parejas fijas durante todo el viaje. Todo lo que gana uno, suma para los dos.</p><ul style="list-style:none;padding:0">'+pairs+'</ul>')+
+    sec('01','Las parejas','<p>Somos 8 y jugamos en 4 parejas fijas durante todo el viaje.</p><ul style="list-style:none;padding:0">'+pairs+'</ul>')+
     sec('02','Las categorías','<p>No hay fixture fijo. Cualquier pareja puede jugar contra cualquier otra, todas las veces que quieran y en el momento que salga. Puede pasar que una pareja juegue 10 partidos y otra 7: está bien, juega el que se anima.</p><div class="tbl-wrap"><table><thead><tr><th></th><th>Categoría</th></tr></thead><tbody>'+catRows+'</tbody></table></div>')+
     sec('03','Cómo se suman los puntos','<p><b>Cada partido ganado suma 1 punto</b>, en cualquier disciplina. Perder no suma ni resta. La tabla general es la suma de todos los partidos ganados, más los bonus y castigos.</p><p>Como no todos juegan la misma cantidad, la tabla también muestra cuántos partidos jugó cada pareja y su efectividad (porcentaje de partidos ganados).</p>')+
-    sec('04','Bonus y castigos','<p>Para darle condimento: se pueden sumar o restar hasta 5 puntos por cosas fuera de la cancha. Por ejemplo, +2 por hacer el asado, −1 por llegar tarde a un partido, −3 por abandonar. Se decide entre todos y queda registrado con el motivo.</p>')+
+    sec('04','Bonus y castigos','<p>Para darle condimento: se pueden sumar o restar hasta 3 puntos por cosas fuera de la cancha. Por ejemplo, +2 por hacer el asado, −1 por llegar tarde a un partido, −3 por abandonar. Se decide entre todos y queda registrado con el motivo.</p>')+
     sec('05','El día a día','<p>Después de cada partido, el organizador toca <b>Cargar resultado</b>, elige la categoría, las dos parejas y pone el tanteador. No hay empates: si se definió por penales o tie-break, se carga con un tanto más para el ganador y se aclara en la nota.</p><p>Todo queda en el <a href="#historial">Historial</a> ordenado por día. Si se cargó algo mal, se borra desde ahí y se vuelve a cargar.</p>')+
   '</div></section>';
 }
@@ -666,6 +666,8 @@ function normalize(v,fallback){
   d.meta=v.meta||d.meta;d.players=toArr(v.players).length?toArr(v.players):d.players;
   d.pairs=toArr(v.pairs).length?toArr(v.pairs).map(function(p){p.players=toArr(p.players);return p}):d.pairs;
   d.categories=toArr(v.categories).length?toArr(v.categories):d.categories;
+  var MIG={};MIG["Partidas a 30 (15 malas y 15 buenas). Con o sin flor se decide antes del primer partido y vale para todo el torneo."]=["Partidas a 30. Sin flor.",30];MIG["Partidas a 15 puntos. Se tira alternando una pareja y la otra."]=["Partidas a 11 puntos. Se tira alternando una pareja y la otra.",11];MIG["2 contra 2 con red en la playa. Partidos a 15 puntos, hay que ganar por 2."]=["2 contra 2 con red en la playa. Partidos a 11 puntos, hay que ganar por 2 puntos.",11];
+  d.categories.forEach(function(c){var m=MIG[c.rule];if(m){c.rule=m[0];c.to=m[1]}});
   d.posPoints=toArr(v.posPoints).length?toArr(v.posPoints):d.posPoints;
   d.matches=toArr(v.matches).map(function(m){if(m.order)m.order=toArr(m.order);return m});
   d.bonuses=toArr(v.bonuses);
@@ -725,11 +727,11 @@ function submitResult(){
 }
 function renderBonus(){
   var s=state,x=modalCtx;
-  openModal('<h2>Bonus o castigo</h2><form id="f-bon" class="fstack" novalidate><div><label for="b-pair">Pareja</label><select id="b-pair">'+pairOptions(s,x.pair)+'</select></div><div class="f2"><div><label for="b-pts">Puntos (de −5 a +5)</label><input id="b-pts" type="number" min="-5" max="5" step="1" value="1"></div><div><label for="b-day">Día</label><select id="b-day">'+dayOptions(s,x.day)+'</select></div></div><div><label for="b-reason">Motivo</label><input id="b-reason" maxlength="100" placeholder="Ej.: hizo el asado"></div><p id="b-err" class="warn" role="alert"></p><div class="btnrow"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn primary">Guardar</button></div></form>');
+  openModal('<h2>Bonus o castigo</h2><form id="f-bon" class="fstack" novalidate><div><label for="b-pair">Pareja</label><select id="b-pair">'+pairOptions(s,x.pair)+'</select></div><div class="f2"><div><label for="b-pts">Puntos (de −3 a +3)</label><input id="b-pts" type="number" min="-3" max="3" step="1" value="1"></div><div><label for="b-day">Día</label><select id="b-day">'+dayOptions(s,x.day)+'</select></div></div><div><label for="b-reason">Motivo</label><input id="b-reason" maxlength="100" placeholder="Ej.: hizo el asado"></div><p id="b-err" class="warn" role="alert"></p><div class="btnrow"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn primary">Guardar</button></div></form>');
 }
 function submitBonus(){
   var pts=Number($('#b-pts').value),reason=$('#b-reason').value.trim(),err=$('#b-err');
-  if(!isFinite(pts)||pts%1||pts===0||pts<-5||pts>5){err.textContent='Poné un número entero entre −5 y +5 (que no sea 0).';return}
+  if(!isFinite(pts)||pts%1||pts===0||pts<-3||pts>3){err.textContent='Poné un número entero entre −3 y +3 (que no sea 0).';return}
   if(!reason){err.textContent='Escribí el motivo, así queda en el historial.';return}
   var bp=$('#b-pair').value;
   state.bonuses.push({id:uid(),pair:bp,pts:pts,reason:reason,day:$('#b-day').value,ts:Date.now()});
